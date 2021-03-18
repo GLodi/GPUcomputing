@@ -1,3 +1,11 @@
+# Compile
+
+`yay cuda cuda-tools`
+
+cd into lab then:
+
+`nvcc hello.cu -o hello`
+
 # GPU computing
 Materiale di laboratorio del corso di GPU computing - laurea Magistrale in Informatica @ [di.unimi.it](http://www.di.unimi.it)
 

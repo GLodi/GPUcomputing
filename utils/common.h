@@ -63,8 +63,7 @@
     }                                                                          \
 }
 
-inline double seconds()
-{
+inline double seconds() {
     struct timeval tp;
     struct timezone tzp;
     int i = gettimeofday(&tp, &tzp);

@@ -36,7 +36,26 @@ __global__ void Vflip(pel *imgDst, const pel *imgSrc, const uint w, const uint h
  *  each thread only flips a single pixel (R,G,B)
  */
 __global__ void Hflip(pel *ImgDst, pel *ImgSrc, uint width) {
-	// TODO
+	uint dimBlock = blockDim.x;
+	uint MYbid = blockIdx.x;
+	uint MYtid = threadIdx.x;
+	uint MYgtid = dimBlock * MYbid + MYtid;
+
+	uint BlkPerRow = (width + dimBlock - 1) / dimBlock;  // ceil
+	uint RowBytes = (width * 3 + 3) & (~3);
+	uint MYrow = MYbid / BlkPerRow;
+	uint MYcol = MYgtid - MYrow * BlkPerRow * dimBlock;
+	if (MYcol >= width)
+		return;			// col out of range
+	uint MYmirrorcol = width - 1 - MYcol;
+	uint MYoffset = MYrow * RowBytes;
+	uint MYsrcIndex = MYoffset + 3 * MYcol;
+	uint MYdstIndex = MYoffset + 3 * MYmirrorcol;
+
+	// swap pixels RGB   @MYcol , @MYmirrorcol
+	ImgDst[MYdstIndex] = ImgSrc[MYsrcIndex];
+	ImgDst[MYdstIndex + 1] = ImgSrc[MYsrcIndex + 1];
+	ImgDst[MYdstIndex + 2] = ImgSrc[MYsrcIndex + 2];
 }
 
 /*
@@ -182,3 +201,4 @@ void WriteBMPlin(pel *Img, char* fn) {
 			img.height, IMAGESIZE);
 	fclose(f);
 }
+

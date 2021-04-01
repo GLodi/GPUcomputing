@@ -79,4 +79,7 @@ inline void device_name() {
     CHECK(cudaSetDevice(dev));
 }
 
+typedef unsigned long ulong;
+typedef unsigned int uint;
+
 #endif // _COMMON_H

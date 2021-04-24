@@ -4,13 +4,13 @@
 
 #include "../../utils/common.h"
 
-#define DATA_WIDTH   (24)
-#define DATA_HEIGHT  (24)
+#define DATA_WIDTH   (20*1024)
+#define DATA_HEIGHT  (20*1024)
 #define BLOCK_SIZE   8
 #define MASK_RADIUS  2
 #define MASK_SIZE    (2 * MASK_RADIUS + 1)
 #define TILE_WIDTH   (BLOCK_SIZE + MASK_SIZE - 1)
-#define DEBUG 1
+#define DEBUG 0
 
 // constant mem
 __constant__ float M_dev[MASK_SIZE*MASK_SIZE];
@@ -83,16 +83,6 @@ __global__ void conv2D(float *A, float *B) {
   // END SHARED MEMORY LOADING
 
 	__syncthreads();
-
-  
-  if (blockIdx.x == 0 && blockIdx.y == 0 && threadIdx.x == 0 && threadIdx.y == 0) {
-    printf("BLOCK(%d,%d) - TILE_WIDTH = %d\n",blockIdx.x, blockIdx.y, TILE_WIDTH);
-    for (int i = 0; i < TILE_WIDTH; i++) {
-      for (int j = 0; j < TILE_WIDTH; j++) 
-        printf("%1.0f ", A_s[i][j]);
-		  printf("\n");
-    }
-  }
 
 	float conv_sum = 0.0;
 	for (int i = 0; i < m; i++)

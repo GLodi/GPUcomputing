@@ -22,12 +22,14 @@ typedef struct MQDB {
 } mqdb;
 
 // function prototypes
-int genRandDims(mqdb*, uint, uint);
+int genRandDims(mqdb*, uint, uint, int);
+int genRandDimsUnified(mqdb*, uint, uint, int);
 void fillBlocks(mqdb*, uint, uint, char, float);
+void fillBlocksUnified(mqdb*, uint, uint, char, float);
 mqdb mqdbConst(uint, uint, uint, float);
 void mqdbProd(mqdb, mqdb, mqdb);
 void matProd(mqdb, mqdb, mqdb);
 void checkResult(mqdb, mqdb);
-void mqdbDisplay(mqdb);
+void mqdbDisplay(mqdb*);
 
 #endif
